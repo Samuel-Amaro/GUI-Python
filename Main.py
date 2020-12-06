@@ -1,6 +1,11 @@
 import View.Interface_Principal as tela
 from tkinter import ttk
 from tkinter import *
+from Banco_Dados import conexaoBanco
+from Dao import dao_Beneficiario
 
-App = Tk()
-tela.TelaPrincipal(App)
+if __name__ == "__main__":
+    App = Tk()
+    tela.TelaPrincipal(App)
+    c = conexaoBanco.conexaoBancoDados()
+    c.ddlBanco()

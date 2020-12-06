@@ -12,12 +12,13 @@
 
 from tkinter import ttk
 from tkinter import *
-
+from utils import funcao_botoes
 
 """
  # CLASSE QUE COSTROE A TELA PRINCIPAL DO PROJETO;
 """
-class TelaPrincipal:
+
+class TelaPrincipal(funcao_botoes.functionBtn):
      """
       # METODO COSTRUTOR(INICIALIZADOR DA CLASSE);
        - VAI CHAMAR TODAS AS FUNÇÕES QUE COSTROEM A CLASSE, COMPONENTE POR COMPONENTE, QUE DA VIDA A CLASSE;
@@ -35,6 +36,8 @@ class TelaPrincipal:
           self.estilizarBotoes()
           self.estilizarLabels()
           self.treeViewClientes()
+          self.barraRolagens()
+          self.beneficiariosCadastrados()
           self.telaPrincipal.mainloop()
           super().__init__()
      """
@@ -70,11 +73,13 @@ class TelaPrincipal:
        - BOTÃO DE APAGAR COM POSICIONAMENTO RELATIVO AO CONTEINER;
        - BOTÃO DE LIMPAR COM POSICIONAMENTO RELATIVO AO CONTEINER;
        - BOTÃO DE ALTERAR COM POSICIONAMENTO RELATIVO AO CONTEINER;
+       - CADA BOTÃO JA VAI ESTAR ASSOCIADO COM SEU EVENTO DE AÇÃO;
+       - CADA BOTÃO VAI TER SEU EVENTO ASSOCIADO JA, AS IMPLEMENTAÇÕES DO EVENTO ESTÃO EM OUTRA CLASSE EM OUTRO PACOTE;
      """    
      def botoes(self):
-          self.btn_limpar_campos_formualario = Button(self.conteinerTop,text="Limpar Campos")
+          self.btn_limpar_campos_formualario = Button(self.conteinerTop,text="Limpar Campos",command=self.limparCampos)       
           self.btn_limpar_campos_formualario.place(relx=0.2,rely=0.02,relwidth=0.16,relheight=0.10)
-          self.btn_cadastrar = Button(self.conteinerTop,text="Cadastrar")
+          self.btn_cadastrar = Button(self.conteinerTop,text="Cadastrar",command=self.cadastrarBeneficiario)
           self.btn_cadastrar.place(relx=0.36,rely=0.02,relwidth=0.12,relheight=0.10)
           self.btn_buscar = Button(self.conteinerTop,text="Buscar")
           self.btn_buscar.place(relx=0.6,rely=0.02,relwidth=0.10,relheight=0.10)
@@ -82,7 +87,8 @@ class TelaPrincipal:
           self.btn_alterar.place(relx=0.70,rely=0.02,relwidth=0.10,relheight=0.10)
           self.bnt_apagar = Button(self.conteinerTop,text="Apagar")
           self.bnt_apagar.place(relx=0.8,rely=0.02,relwidth=0.10,relheight=0.10)
-     
+          self.btn_atualizar_lista = Button(self.conteinerTop,text="Atualizar",command=self.beneficiariosCadastrados)
+          self.btn_atualizar_lista.place(relx=0.75,rely=0.85,relwidth=0.15,relheight=0.10)  
      """
       # CRIA WIDGETS INFORMATIVOS PARA O USUARIO;
         - CRIA LABELS PARA WIDGETS DE INPUTS DE ENTRADA DE TEXTO DO USUARIO;
@@ -125,7 +131,7 @@ class TelaPrincipal:
        - CAIXA DE TEXTO PARA USUARIO DIGITAR SEU ENDEREÇO;
      """
      def caixaEntradaTexto(self):
-         self.txtCodigo = Entry(self.conteinerTop) 
+         self.txtCodigo = Entry(self.conteinerTop,relief="groove") 
          self.txtCodigo.place(relx=0.03,rely=0.12,relwidth=0.10,relheight=0.10)
          self.txtNome= Entry(self.conteinerTop)
          self.txtNome.place(relx=0.03,rely=0.35,relwidth=0.54,relheight=0.10)
@@ -173,6 +179,7 @@ class TelaPrincipal:
           self.btn_alterar.configure(border=2,font=("arial",9,"normal"))
           self.btn_buscar.configure(border=2,font=("arial",9,"normal"))
           self.btn_cadastrar.configure(border=2,font=("arial",9,"normal"))
+          self.btn_atualizar_lista.configure(border=2,font=("arial",9,"normal"))
      
      """
       # METODO QUE TERA A FUNÇÃO DE APLICAR UMA ESTILIZAÇÃO MODERNA NAS LABELS DA TELA PRINCIPAL;
@@ -198,24 +205,29 @@ class TelaPrincipal:
         - PODERAR DELETAR CLIENTES ATRAVES DA TREE VIEW;
      """
      def treeViewClientes(self):
-         self.tViewCli = ttk.Treeview(self.conteinerBotton,columns=("col0","col1","col2","col3","col4","col5","col6","col7"),show="headings")
+         self.tViewCli = ttk.Treeview(self.conteinerBotton,columns=("col0","col1","col2","col3","col4","col5","col6","col7","col8","col9"),show="headings")
          self.tViewCli.column("col0",minwidth=0,width=5) # coluna id
-         self.tViewCli.column("col1",minwidth=0,width=150) # coluna nome
+         self.tViewCli.column("col1",minwidth=0,width=30) # telefone
          self.tViewCli.column("col2",minwidth=0,width=30) # cpf
-         self.tViewCli.column("col3",minwidth=0,width=30) # telefone
-         self.tViewCli.column("col4",minwidth=0,width=50) # local
-         self.tViewCli.column("col5",minwidth=0,width=50) # abrangencia(zona rural,urbana)
-         self.tViewCli.column("col6",minwidth=0,width=75) # endereço
+         self.tViewCli.column("col3",minwidth=0,width=20) # coluna nis
+         self.tViewCli.column("col4",minwidth=0,width=75) # endereço
+         self.tViewCli.column("col5",minwidth=0,width=50) # local
+         self.tViewCli.column("col6",minwidth=0,width=50) # abrangencia(zona rural,urbana)
          self.tViewCli.column("col7",minwidth=0,width=5) # qtd pessoa residem na casa
-         self.tViewCli.heading("col0",text="Código")
-         self.tViewCli.heading("col1",text="Nome")
+         self.tViewCli.column("col8",minwidth=0,width=15) # rg
+         self.tViewCli.column("col9",minwidth=0,width=150) # coluna nome
+         self.tViewCli.heading("col0",text="Id")
+         self.tViewCli.heading("col1",text="Telefone")
          self.tViewCli.heading("col2",text="CPF")
-         self.tViewCli.heading("col3",text="Telefone")
-         self.tViewCli.heading("col4",text="Local")
-         self.tViewCli.heading("col5",text="Abrangência")
-         self.tViewCli.heading("col6",text="Endereço")
-         self.tViewCli.heading("col7",text="Qtd Pessoa Na Casa")
+         self.tViewCli.heading("col3",text="Nis")
+         self.tViewCli.heading("col4",text="Endereço")
+         self.tViewCli.heading("col5",text="Local")
+         self.tViewCli.heading("col6",text="Abrangência")
+         self.tViewCli.heading("col7",text="Moradores Casa")
+         self.tViewCli.heading("col8",text="RG")
+         self.tViewCli.heading("col9",text="Nome")
          self.tViewCli.place(relx=0.01,rely=0.01,relwidth=0.95,relheight=0.95)
+         
 
      """
       # METODO QUE DEFINE BARRA DE ROLAGENS NA HORIZONTAL E NA VERTICAL;
@@ -223,5 +235,13 @@ class TelaPrincipal:
         - A BARRA DE ROLAGENS PERMITE PERCORRER TODA A TREE VIEW NA HORIZONTAL E VERTICAL, VISUALIZANDO TODAS INFORMAÇÕES;
      """
      def barraRolagens(self):         
+         self.barraVertical = ttk.Scrollbar(self.conteinerBotton,orient='vertical',command=self.tViewCli.yview) 
+         self.tViewCli.configure(yscrollcommand=self.barraVertical.set)
+         self.barraVertical.place(relx=0.96,rely=0.01,relwidth=0.04,relheight=0.95)
+         self.barraHorizontal = ttk.Scrollbar(self.conteinerBotton,orient="horizontal",command=self.tViewCli.xview)
+         self.tViewCli.configure(xscrollcommand=self.barraHorizontal.set)
+         self.barraHorizontal.place(relx=0.01,rely=0.85,relwidth=0.95,relheight=0.10)
+
+
 
 
