@@ -5,6 +5,7 @@ e bibliotecas externas proprias do python
   * [Python versão 3.9.0](https://www.python.org/)
   * [Tkinter](https://docs.python.org/pt-br/3/library/tkinter.ttk.html)
   * Editor de Código;
+  * [API-SQLite3 Python](https://docs.python.org/3/library/sqlite3.html#sqlite3.Cursor.fetchall);
 # Tkinter
 Para utilizar o python tkinter basta istalar a versão mais recente do python, 
 e seguir as importações a seguir em seu projeto e tera todos os widgets disponiveis no tkinter para usar em seu projeto  
@@ -12,4 +13,14 @@ e seguir as importações a seguir em seu projeto e tera todos os widgets dispon
   from tkinter import *
   from tkinter import ttk
   ```
-
+## Istalar Sqlite3 usando gerenciador de pacotes pip
+```
+ pip install sqlite3-api
+```
+## API SQLite3 No Python
+```
+ from sqlite3 import *
+```
+## Banco-Dados
+ * Modelo logico do banco de dados que deve ser implementado;
+ * [Modelo-Logico-Db](https://github.com/Samuel-Amaro/GUI-Python/blob/main/Documentacao/Banco-Dados/modelo-logico-banco.pdf)
