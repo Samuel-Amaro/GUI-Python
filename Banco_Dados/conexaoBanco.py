@@ -19,7 +19,9 @@ class conexaoBancoDados():
              # SE CONECTA AO BANCO
              self.conexao = connect('db_secretaria_social.db')
              self.cursoSql = self.conexao.cursor()
+             print("---------------------------")
              print("Banco conectado com Sucesso")
+             print("---------------------------")
              return self.conexao;
         except Error as e:
             print("Ocorreu um erro ao se conectar ao banco de dados" + e)
@@ -29,6 +31,9 @@ class conexaoBancoDados():
     def desconectarBanco(self):
         # fecha o banco de dados e faz desconexão
         self.conexao.close()
+        print("----------------------------------")
+        print("BANCO DE DADOS DESCONECTADO")
+        print("----------------------------------")
     """
      # METODO QUE MONTA A  ESTRUTURA DO BANCO DE DADOS;
        - CRIA OS DDL DO BANCO DE DADOS;
@@ -36,10 +41,12 @@ class conexaoBancoDados():
     """
     def ddlBanco(self):
         self.conectarBanco();
+        #self.cursoSql.execute("""DROP TABLE beneficiario_social;""")
+        #print("Apagou tabela")
         self.cursoSql.execute("""CREATE TABLE IF NOT EXISTS beneficiario_social(
                                   id_beneficiario_pk INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
                                   telefone VARCHAR(15) NOT NULL,
-                                  cpf VARCHAR(11) NOT NULL,
+                                  cpf VARCHAR(11) UNIQUE NOT NULL,
                                   nis VARCHAR (25),
                                   endereco VARCHAR(200) NOT NULL,
                                   bairro VARCHAR (150) NOT NULL,
@@ -62,6 +69,8 @@ class conexaoBancoDados():
         """)
         self.conexao.commit()
         self.desconectarBanco()
+        print("-------------------")
         print("DDL DO BANCO CRIADO")
+        print("-------------------")
 
     

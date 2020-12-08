@@ -14,6 +14,8 @@ class functionBtn():
         self.beneficiario = ModelBeneficiario.ModeloBeneficiario();
         self.daoBen = dao_Beneficiario.daoBeneficiarioCrud();
         self.listaBeneficiarios = None;
+        self.beneficiarioSelecionado = ();
+        self.beneficiarioAlterar = ();
         super().__init__()
      
     """
@@ -24,6 +26,7 @@ class functionBtn():
            - LIMPAR TODAS OS INPUT DO USUARIO
     """
     def limparCampos(self):
+          self.estadoCaixasTexto("ATIVADO")
           self.txtCodigo.delete(0,END);
           self.txtNome.delete(0,END);
           self.txtTelefone.delete(0,END);
@@ -37,6 +40,7 @@ class functionBtn():
       # FUNÇÃO QUE RECEBE DADOS DO FORMULARIO E FAZ CADASTRO DO BENEFICIARIO NO BANCO; 
         - recebe dados das caixas de texto que o usuario digitou;
         - recebe dados dos widgets graficos que o usuario manipulou;
+        - esses dados são add em um obejto de tipo beneficiario, e esses objeto e mandado para a camada de controle, para fazer as validações e persistencias antes de enviar para o banco de dados
     """
     def cadastrarBeneficiario(self):
          self.beneficiario = ModelBeneficiario.ModeloBeneficiario();
@@ -54,16 +58,126 @@ class functionBtn():
          # mandando para o banco de dados
          resultado = self.daoBen.insertBeneficiario(self.beneficiario)
          if(resultado):
-            print("Usuario inserido com sucesso")
+            print("----------------------------")
+            print("Beneficiario Cadastrado com sucesso")
+            print("----------------------------")
          else:
-             print("Usuario não inserido")
+             print("----------------------------")
+             print("Beneficiario Não cadastrado")
+             print("----------------------------")
+             self.limparCampos()
     
     """
      # METODO QUE MOSTRA CLIENTES QUE ESTÃO CADASTRADOS NA TABELA DE BENEFICIARIOS DO BANCO DE DADOS
+      - faz a busca no banco de dados de todos os clientes cadastrados;
+      - retorna a lista com todos os clientes cadastrados na tabela;
+      - cada item dessa lista e add, na tree view da interface do usuario, para o usuario ver todos os beneficiarios cadastrados no banco de dados;
     """
     def beneficiariosCadastrados(self):
         self.tViewCli.delete(*self.tViewCli.get_children())
         self.daoBen = dao_Beneficiario.daoBeneficiarioCrud()
         self.listaBeneficiarios = self.daoBen.selectBeneficiarios()
-        for linha in self.listaBeneficiarios:
-            self.tViewCli.insert("",END,values=linha)
+        if(self.listaBeneficiarios == None):
+           print("-------------------------------------------")
+           print("Lista Vazia, sem beneficiarios cadastrados;")
+           print("-------------------------------------------")
+        else:
+            for linha in self.listaBeneficiarios:
+                self.tViewCli.insert("",END,values=linha)
+    """
+     # ESTE METODO VAI OBTER UM REGISTRO SELECIONADO DA TREE VIEW
+       - este metodo busca os valores de um item selecionado na treee view;
+       - obtem os valores do registro, e retorna esses valore em um obejto de tipo beneficirio;
+       - busca o registro, obtem os valores, e retorna um obejto setado com os valores;
+    """
+    def obterItemSelecionadoTreeView(self):
+           # obtem o item selecionado da tree view
+           self.beneficiarioSelecionado = self.tViewCli.selection();
+           #print(self.beneficiarioSelecionado)
+           self.beneficiario = ModelBeneficiario.ModeloBeneficiario()
+           # obtem os valores do registro selecionado da tree view, retorna um tupla com todos os valores
+           self.beneficiarioAlterar = self.tViewCli.item(self.beneficiarioSelecionado,"values")
+           # criando um obejto beneficiario, com novos valores, esses valores são do registro selecionado pelo usuario da tree view
+           # acesso cada valor do registro usando a indexação da tupla, e setando esses valores na tree view
+           self.beneficiario.setId(self.beneficiarioAlterar[0]); #id
+           self.beneficiario.setFone(self.beneficiarioAlterar[1]); #telefone
+           self.beneficiario.setCpf(self.beneficiarioAlterar[2]) # cpf
+           self.beneficiario.setNis(self.beneficiarioAlterar[3]) # nis
+           self.beneficiario.setEndereco(self.beneficiarioAlterar[4]) # endereço
+           self.beneficiario.setBairro(self.beneficiarioAlterar[5]) # local
+           self.beneficiario.setAbrangencia(self.beneficiarioAlterar[6]) # abrangencia
+           self.beneficiario.setQtdCasa(self.beneficiarioAlterar[7]) # moradores casa
+           self.beneficiario.setRg(self.beneficiarioAlterar[8]) # rg
+           self.beneficiario.setNome(self.beneficiarioAlterar[9]) # nome   
+           print(self.beneficiario)
+           return self.beneficiario;
+    
+    """ 
+     # este metodo e chamado quando um clique em um item da tree view acontece;
+       - quando um evento de clique em um item da tree view acontece, esse metodo e chamado;
+       - esse metodo vai setar nas caixas de texto, o item selecionado;
+       - vai mostrar nas caixas os valores selecionados;
+       - o registro selecionado na tree view, vai ter seus valores mostrados nas caixas de texto, atraves, desse metodo, esse metodo vai pegar o item selecionado da tree view, e popular as caixas de texto da view, com os valores do registro selecionado;
+       - esse metodo esta associado a um evento, ao evento ser executado, a resposta do evento, sera esse metodo, por isso tem um parametro event, porque o metodo e uma respota a um evento; no caso o evento tem que ser um duplo clique do mouse do botão esquer(<Double-1>)       
+    """
+    def cliqueSelecionaTreeView(self,event):
+        self.beneficiario = ModelBeneficiario.ModeloBeneficiario()
+        self.beneficiario = self.obterItemSelecionadoTreeView()
+        if(self.beneficiario == None):
+          print("Obejto Vazio, não tem como popular a caixa de texto");
+        else:
+            self.vTxtCodigo.set(self.beneficiario.getId)
+            self.vTxtNome.set(self.beneficiario.getNome)
+            self.vTxtCpf.set(self.beneficiario.getCpf)
+            self.vTxtLocal.set(self.beneficiario.getBairro)
+            self.vTxtAbrangencia.set(self.beneficiario.getAbrangencia)
+            self.vTxtTelefone.set(self.beneficiario.getFone)
+            self.vTxtQtdCasa.set(self.beneficiario.getQtdCasa)
+            self.vTxtEndereco.set(self.beneficiario.getEndereco)
+            # CAIXA DE TEXTO ID E CPF, NÃO PODEM TER SEU CONTEUDO ALTERADO
+            self.estadoCaixasTexto('DESATIVADO')       
+    
+    """
+       # METODO QUE CONGIGURA O ESTADO DE UMA CAIXA DE TEXTO;
+         - de acordo com o estado pedido, a caixa vai ser desativada, sem poder editar o conteudo, e sem poder copiar o texto;
+         - depois a caixa pode ser ativada e fazer tudo que se pode fazer normalmente;
+    """
+    def estadoCaixasTexto(self,estado = "ATIVADO" or "DESATIVADO"):
+         if(estado == "ATIVADO"):
+            self.txtCodigo.configure(state=NORMAL)
+            self.txtCpf.configure(state=NORMAL)
+         else:  
+            self.txtCodigo.configure(state=DISABLED)
+            self.txtCpf.configure(state=DISABLED)
+
+    """
+     # METODO QUE VAI ATUALIZAR UM CADASTRO DE UM BENEFICIARIO
+       - recebe os dados do cadastro, faz validação do cadastro e manda para o banco de dados;
+       - obtem os dados da caixa de texto, usando o controle de variaveis de fluxo, das caixas de texto;
+       - esses dados obtidos das caixas de texto, são armazenados num novo obejto beneficiario, para ser encaminhado para a camada dao, do banco de dados para ver se vai poder atualizar o cadastro do beneficiario ou não;
+    """
+    def atualizarCadBenf(self):
+        self.beneficiario = ModelBeneficiario.ModeloBeneficiario();
+        self.daoBen = dao_Beneficiario.daoBeneficiarioCrud();
+        self.beneficiario.setNome(self.vTxtNome.get())
+        self.beneficiario.setBairro(self.vTxtLocal.get())
+        self.beneficiario.setAbrangencia(self.vTxtAbrangencia.get())
+        self.beneficiario.setEndereco(self.vTxtEndereco.get())
+        self.beneficiario.setFone(self.vTxtTelefone.get())
+        self.beneficiario.setNis(None)
+        self.beneficiario.setRg(None)
+        self.beneficiario.setId(self.vTxtCodigo.get())
+        self.beneficiario.setCpf(self.vTxtCpf.get())
+        self.beneficiario.setQtdCasa(self.vTxtQtdCasa.get())
+        if(self.daoBen.daoAtualizarCadBeneficiario(self.beneficiario)):
+          print("--------------------------------------");
+          print("BENEFICIARIO ATUALIZADO COM SUCESSO!")
+          print("--------------------------------------");
+          # CAIXA DE TEXTO VOLTA SER EDITAVEL
+          self.estadoCaixasTexto("ATIVADO")
+          # LIMPA CAMPOS DO FORMULARIO
+          self.limparCampos()
+        else:
+          print("--------------------------------------");
+          print("BENEFICIARIO NÃO ATUALIZADO COM SUCESSO!")
+          print("--------------------------------------");

@@ -4,6 +4,7 @@ from tkinter import *
 from Banco_Dados import conexaoBanco
 from Dao import dao_Beneficiario
 
+
 if __name__ == "__main__":
     App = Tk()
     tela.TelaPrincipal(App)

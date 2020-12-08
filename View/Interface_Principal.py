@@ -30,7 +30,9 @@ class TelaPrincipal(funcao_botoes.functionBtn):
           self.conteinerFrames()
           self.botoes()
           self.labels_informativas()
+          self.criaFluxoText() # teste de setar texto na caixa de texto 
           self.caixaEntradaTexto()
+          self.estilizarCaixasTexto()
           self.comboBox()
           self.spinBox()
           self.estilizarBotoes()
@@ -38,6 +40,7 @@ class TelaPrincipal(funcao_botoes.functionBtn):
           self.treeViewClientes()
           self.barraRolagens()
           self.beneficiariosCadastrados()
+          self.setTextCaixasTexto()
           self.telaPrincipal.mainloop()
           super().__init__()
      """
@@ -83,7 +86,7 @@ class TelaPrincipal(funcao_botoes.functionBtn):
           self.btn_cadastrar.place(relx=0.36,rely=0.02,relwidth=0.12,relheight=0.10)
           self.btn_buscar = Button(self.conteinerTop,text="Buscar")
           self.btn_buscar.place(relx=0.6,rely=0.02,relwidth=0.10,relheight=0.10)
-          self.btn_alterar = Button(self.conteinerTop,text="Alterar")
+          self.btn_alterar = Button(self.conteinerTop,text="Alterar",command=self.atualizarCadBenf)
           self.btn_alterar.place(relx=0.70,rely=0.02,relwidth=0.10,relheight=0.10)
           self.bnt_apagar = Button(self.conteinerTop,text="Apagar")
           self.bnt_apagar.place(relx=0.8,rely=0.02,relwidth=0.10,relheight=0.10)
@@ -131,15 +134,16 @@ class TelaPrincipal(funcao_botoes.functionBtn):
        - CAIXA DE TEXTO PARA USUARIO DIGITAR SEU ENDEREÇO;
      """
      def caixaEntradaTexto(self):
-         self.txtCodigo = Entry(self.conteinerTop,relief="groove") 
+         # teste int var para setar texto na caixa de texto
+         self.txtCodigo = Entry(self.conteinerTop,textvariable=self.vTxtCodigo) 
          self.txtCodigo.place(relx=0.03,rely=0.12,relwidth=0.10,relheight=0.10)
-         self.txtNome= Entry(self.conteinerTop)
+         self.txtNome= Entry(self.conteinerTop,textvariable=self.vTxtNome)
          self.txtNome.place(relx=0.03,rely=0.35,relwidth=0.54,relheight=0.10)
-         self.txtTelefone = Entry(self.conteinerTop)
+         self.txtTelefone = Entry(self.conteinerTop,textvariable=self.vTxtTelefone)
          self.txtTelefone.place(relx=0.03,rely=0.60,relwidth=0.25,relheight=0.10)
-         self.txtCpf = Entry(self.conteinerTop)
+         self.txtCpf = Entry(self.conteinerTop,textvariable=self.vTxtCpf)
          self.txtCpf.place(relx=0.6,rely=0.35,relwidth=0.30,relheight=0.10)
-         self.txtEndereco = Entry(self.conteinerTop)
+         self.txtEndereco = Entry(self.conteinerTop,textvariable=self.vTxtEndereco)
          self.txtEndereco.place(relx=0.03,rely=0.85,relwidth=0.54,relheight=0.10)
 
      
@@ -149,13 +153,13 @@ class TelaPrincipal(funcao_botoes.functionBtn):
        - CLIENTE ESCOLHE O TIPO DE ABRANGENCIA QUE ELE MORA, SE E EM ZONA RURAL, OU ZONA URBANA;
      """
      def comboBox(self):
-          self.lista_bairros = ["ESCOLHA UM LOCAL","SETOR SUL","BOSQUE II","BOSQUE I","VILA VERDE","FORMOSINHA"]
-          self.txtLocal = ttk.Combobox(self.conteinerTop,value=self.lista_bairros)
+          self.lista_bairros = ["ESCOLHA UM LOCAL","SETOR SUL","BOSQUE II","BOSQUE I","VILA VERDE","FORMOSINHA","CRIXA","BEZERRA","JK","SANTA ROSA","VIRGILANDIA","PALMEIRA I","PALMEIRA II","SANTA LEOCADIA","NOVA FORMOSA"]
+          self.txtLocal = ttk.Combobox(self.conteinerTop,value=self.lista_bairros,textvariable=self.vTxtLocal)
           self.txtLocal.place(relx=0.32,rely=0.60,relwidth=0.25,relheight=0.10)
           # setando uma opção padrão para o bairro
           self.txtLocal.set("ESCOLHA UM LOCAL")
           self.lista_abrangencia = ["ESCOLHA A ABRANGÊNCIA","ZONA URBANA","ZONA RURAL"];
-          self.txtAbrangencia = ttk.Combobox(self.conteinerTop,value=self.lista_abrangencia)
+          self.txtAbrangencia = ttk.Combobox(self.conteinerTop,value=self.lista_abrangencia,textvariable=self.vTxtAbrangencia)
           self.txtAbrangencia.place(relx=0.6,rely=0.60,relwidth=0.30,relheight=0.10)
           # setando uma opção padrão para o combo box
           self.txtAbrangencia.set("ESCOLHA A ABRANGÊNCIA")
@@ -166,7 +170,7 @@ class TelaPrincipal(funcao_botoes.functionBtn):
        - ONDE USUARIO TERA QUE INFORMAR A QUANTIDADE DE PESSOAS QUE MORA NA SUA CASA;
      """
      def spinBox(self):
-          self.txtQtdCasa = Spinbox(self.conteinerTop,from_=1,to=15)
+          self.txtQtdCasa = Spinbox(self.conteinerTop,from_=1,to=15,textvariable=self.vTxtQtdCasa)
           self.txtQtdCasa.place(relx=0.6,rely=0.85,relwidth=0.10,relheight=0.10)
           
      """
@@ -203,6 +207,7 @@ class TelaPrincipal(funcao_botoes.functionBtn):
         - USUARIO PODERA VER CLIENTES CADASTRADOS;
         - PODERA SELECIONAR CLIENTES ATRAVES DA TREEVIEW;
         - PODERAR DELETAR CLIENTES ATRAVES DA TREE VIEW;
+        - A TREET VIEW AO RECEBER DOIS CLIQUES DO BOTÃO ESQUERDO DO MOUSE, VAI TRATAR O EVENTO COM O BIND, E CHAMAR A RESPOTA AO EVENTO;
      """
      def treeViewClientes(self):
          self.tViewCli = ttk.Treeview(self.conteinerBotton,columns=("col0","col1","col2","col3","col4","col5","col6","col7","col8","col9"),show="headings")
@@ -227,6 +232,8 @@ class TelaPrincipal(funcao_botoes.functionBtn):
          self.tViewCli.heading("col8",text="RG")
          self.tViewCli.heading("col9",text="Nome")
          self.tViewCli.place(relx=0.01,rely=0.01,relwidth=0.95,relheight=0.95)
+         # ao receber o evento de dois cliques do botão do moouse equerdo, a treet view vai disparar uma resposta ao evento
+         self.tViewCli.bind("<Double-1>",self.cliqueSelecionaTreeView)
          
 
      """
@@ -242,6 +249,48 @@ class TelaPrincipal(funcao_botoes.functionBtn):
          self.tViewCli.configure(xscrollcommand=self.barraHorizontal.set)
          self.barraHorizontal.place(relx=0.01,rely=0.85,relwidth=0.95,relheight=0.10)
 
+     """
+      # METODO que cria variaveis para controle de entrada e saida de texto, das caixas de texto;
+        - atraves dessas variaveis posso obter e setar valores nas caxas de texto
+     """     
+     def criaFluxoText(self):
+         self.vTxtCodigo = IntVar()
+         self.vTxtNome = StringVar()
+         self.vTxtCpf = StringVar()
+         self.vTxtLocal = StringVar()
+         self.vTxtAbrangencia = StringVar()
+         self.vTxtTelefone = StringVar()
+         self.vTxtQtdCasa = IntVar()
+         self.vTxtRg = StringVar()
+         self.vTxtNis = StringVar()
+         self.vTxtEndereco = StringVar()
+
+     """
+       # ESTE METODO APLICA ESTILIZAÇAÕ NAS CAIXAS DE TEXTO;
+         - este metodo aplica estilização nas caixas de texto;
+         - aplica uma borda, uma largura de borda;
+         - e uma cor da borda da caixa;
+     """
+     def estilizarCaixasTexto(self):
+          self.txtCodigo.configure(relief="groove",border=2)
+          self.txtNome.configure(relief="groove",border=2)
+          #self.txtAbrangencia.configure(relief="groove",border=2)
+          self.txtCpf.configure(relief="groove",border=2)
+          self.txtEndereco.configure(relief="groove",border=2)
+          #self.txtLocal.configure(relief="groove",border=2)
+          self.txtNome.configure(relief="groove",border=2)
+          self.txtTelefone.configure(relief="groove",border=2)
+          #self.t = ttk.Combobox(ttk.Style())
+
+     """
+      # METODO QUE SETA TEXTO NAS CAIXAS DE TEXTO
+     """
+     def setTextCaixasTexto(self):
+          pass
+          #self.vTxtQtdCasa.set(10)
+          #self.vTxtAbrangencia.set("teste");
+          #self.vTxtNome.set("Teste de nome")
+  
 
 
 
