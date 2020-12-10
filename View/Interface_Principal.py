@@ -13,6 +13,7 @@
 from tkinter import ttk
 from tkinter import *
 from utils import funcao_botoes
+from tkinter import messagebox
 
 """
  # CLASSE QUE COSTROE A TELA PRINCIPAL DO PROJETO;
@@ -39,8 +40,8 @@ class TelaPrincipal(funcao_botoes.functionBtn):
           self.estilizarLabels()
           self.treeViewClientes()
           self.barraRolagens()
+          self.menus()
           self.beneficiariosCadastrados()
-          self.setTextCaixasTexto()
           self.telaPrincipal.mainloop()
           super().__init__()
      """
@@ -88,7 +89,7 @@ class TelaPrincipal(funcao_botoes.functionBtn):
           self.btn_buscar.place(relx=0.6,rely=0.02,relwidth=0.10,relheight=0.10)
           self.btn_alterar = Button(self.conteinerTop,text="Alterar",command=self.atualizarCadBenf)
           self.btn_alterar.place(relx=0.70,rely=0.02,relwidth=0.10,relheight=0.10)
-          self.bnt_apagar = Button(self.conteinerTop,text="Apagar")
+          self.bnt_apagar = Button(self.conteinerTop,text="Apagar",command=self.caixasMensagens)
           self.bnt_apagar.place(relx=0.8,rely=0.02,relwidth=0.10,relheight=0.10)
           self.btn_atualizar_lista = Button(self.conteinerTop,text="Atualizar",command=self.beneficiariosCadastrados)
           self.btn_atualizar_lista.place(relx=0.75,rely=0.85,relwidth=0.15,relheight=0.10)  
@@ -282,15 +283,37 @@ class TelaPrincipal(funcao_botoes.functionBtn):
           self.txtTelefone.configure(relief="groove",border=2)
           #self.t = ttk.Combobox(ttk.Style())
 
+     """ 
+      # ESTE METODO CRIA CAIXAS DE MENSAGENS INFORMATIVAS;
+        - CAIXAS DE MENSAGENS PARA RECEBER CONFIMAÇÃO DE USUARIO;
+        - caixa de mensagem para saber se usuario vai querer excluir um cadastro de beneficiario;
      """
-      # METODO QUE SETA TEXTO NAS CAIXAS DE TEXTO
-     """
-     def setTextCaixasTexto(self):
-          pass
-          #self.vTxtQtdCasa.set(10)
-          #self.vTxtAbrangencia.set("teste");
-          #self.vTxtNome.set("Teste de nome")
-  
+     def caixasMensagens(self):
+         # opções de respota da caixa = sim(true) não(false) 
+         self.messageApagar = messagebox.askquestion("DELETAR BENEFICIARIO","DESEJA REALMENTE DELETAR ESTE BENEFICIARIO ?")
+         print(self.messageApagar)
+         if(self.messageApagar == "yes"):
+            if(self.deletarBeneficiario(True)):
+               print("-" * 30)
+               print("BENEFICIARIO DELETADO")   
+            else:
+                 print("-" * 30)
+                 print("BENEFICIARIO NÃO FOI DELETADO")
+         else:  
+              print("-" * 30)
+              print("BENEFICIARIO NÃO EXCLUIDO POR ESCOLHA DO USUARIO")
 
+
+     """
+      # ESTE METODO CRIA UMA BARRA SUPERIOR COM DOIS MENUS DE OPÇÕES PARA USUARIO INTERAGIR;
+     """
+     def menus(self):
+         self.barraMenu = Menu(self.telaPrincipal)
+         self.menu_01_opcoes = Menu(self.barraMenu,tearoff=0) 
+         self.barraMenu.add_cascade(label="Opções",menu=self.menu_01_opcoes)
+         self.menu_01_opcoes.add_command(label="Sair",command=self.sairSistema)
+         self.menu_02_sobre = Menu(self.barraMenu,tearoff=0)
+         self.barraMenu.add_cascade(label="Sobre",menu=self.menu_02_sobre)
+         self.telaPrincipal.configure(menu=self.barraMenu)
 
 

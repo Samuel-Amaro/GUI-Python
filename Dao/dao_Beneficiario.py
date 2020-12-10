@@ -96,3 +96,30 @@ class daoBeneficiarioCrud():
                 print("ATUALIZAÇÃO DE CADASTRO NÃO AUTORIZADA! campos obrigatorios vazios!")
                 print("----------------------------------------")
                 return False;
+    
+
+    """
+     # ESTE METODO TEM A TAREFA DE EXCLUIR UM BENEFICIARIO
+    """
+    def daoDeleteBeneficiario(self,beneficExcluido : ModelBeneficiario.ModeloBeneficiario,respostaUsuario):
+        if(beneficExcluido == None):
+           print("----------------------------------------")
+           print("SELECIONAR UM BENEFICIARIO PARA SER EXCLUIDO");
+           print("-" * 30)
+           return False;
+        else:
+            if(self.controleBene.controlerDeleteBeneficiario(respostaUsuario)):
+                 try:
+                     self.cursorSql = self.conexaoDb.cursor()
+                     self.cursorSql.execute("""DELETE FROM beneficiario_social WHERE id_beneficiario_pk = ?;""",(beneficExcluido.getId));
+                     self.conexaoDb.commit()
+                     self.objConexao.desconectarBanco()
+                     return True;
+                 except Error as r:
+                    print("-"*30)
+                    print("OCORREU UM ERRO AO DELETAR BENEFICIARIO: {%s}" % (r))
+                    return False;
+            else:
+                print("-"*30)
+                print("Usuario não excluido")
+                print("-"*30)

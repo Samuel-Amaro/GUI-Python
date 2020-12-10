@@ -35,6 +35,15 @@ class ControleBeneficiario():
                return True;
             else:
                return False;
+    
+    """
+     # METODO QUE FAZ VALIDAÇÃO DA RESPOSTA DE UM USUARIO PARA SABER SE VAI OU NÃO PRECISAR DELETAR O BENEFICIARIO
+    """
+    def controlerDeleteBeneficiario(self,repostaUsuario):
+        if(repostaUsuario):
+           return True;
+        else:
+           return False;
 
 
     

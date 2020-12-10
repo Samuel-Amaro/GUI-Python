@@ -91,7 +91,8 @@ class functionBtn():
        - busca o registro, obtem os valores, e retorna um obejto setado com os valores;
     """
     def obterItemSelecionadoTreeView(self):
-           # obtem o item selecionado da tree view
+      try:
+        # obtem o item selecionado da tree view
            self.beneficiarioSelecionado = self.tViewCli.selection();
            #print(self.beneficiarioSelecionado)
            self.beneficiario = ModelBeneficiario.ModeloBeneficiario()
@@ -111,6 +112,11 @@ class functionBtn():
            self.beneficiario.setNome(self.beneficiarioAlterar[9]) # nome   
            print(self.beneficiario)
            return self.beneficiario;
+      except IndexError as identifier:
+              print("-" * 30)
+              print("SELECIONE UM BENEFICIARIO")
+              return None;
+           
     
     """ 
      # este metodo e chamado quando um clique em um item da tree view acontece;
@@ -181,3 +187,27 @@ class functionBtn():
           print("--------------------------------------");
           print("BENEFICIARIO NÃO ATUALIZADO COM SUCESSO!")
           print("--------------------------------------");
+    
+    """
+     # este metodo deleta um beneficiario, que foi selecionado na tree view;
+    """
+    def deletarBeneficiario(self,respostaUsuario):
+        self.beneficiario = ModelBeneficiario.ModeloBeneficiario()
+        self.beneficiario = self.obterItemSelecionadoTreeView()
+        self.daoBen = dao_Beneficiario.daoBeneficiarioCrud();
+        if(self.daoBen.daoDeleteBeneficiario(self.beneficiario,respostaUsuario)):
+          print("-"*30)
+          print("BENEFICIARIO DELETADO COM SUCESSO")
+          self.limparCampos()
+          return True
+        else:
+          print("-"*30)
+          print("BENEFICIARIO NÃO DELETADO")            
+          return False
+    
+
+    """
+     # METODO QUE TEM A FUNÇAÕ DE ENCERRAR O SISTEMA;
+    """
+    def sairSistema(self):
+        self.telaPrincipal.destroy()
