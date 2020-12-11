@@ -29,6 +29,7 @@ class TelaPrincipal(funcao_botoes.functionBtn):
           self.telaPrincipal = nomeTela
           self.definirTelaInicial()
           self.conteinerFrames()
+          self.estilizarBtnCanvas()
           self.botoes()
           self.labels_informativas()
           self.criaFluxoText() # teste de setar texto na caixa de texto 
@@ -85,7 +86,7 @@ class TelaPrincipal(funcao_botoes.functionBtn):
           self.btn_limpar_campos_formualario.place(relx=0.2,rely=0.02,relwidth=0.16,relheight=0.10)
           self.btn_cadastrar = Button(self.conteinerTop,text="Cadastrar",command=self.cadastrarBeneficiario)
           self.btn_cadastrar.place(relx=0.36,rely=0.02,relwidth=0.12,relheight=0.10)
-          self.btn_buscar = Button(self.conteinerTop,text="Buscar")
+          self.btn_buscar = Button(self.conteinerTop,text="Buscar",command=self.buscarBeneficiario)
           self.btn_buscar.place(relx=0.6,rely=0.02,relwidth=0.10,relheight=0.10)
           self.btn_alterar = Button(self.conteinerTop,text="Alterar",command=self.atualizarCadBenf)
           self.btn_alterar.place(relx=0.70,rely=0.02,relwidth=0.10,relheight=0.10)
@@ -315,5 +316,15 @@ class TelaPrincipal(funcao_botoes.functionBtn):
          self.menu_02_sobre = Menu(self.barraMenu,tearoff=0)
          self.barraMenu.add_cascade(label="Sobre",menu=self.menu_02_sobre)
          self.telaPrincipal.configure(menu=self.barraMenu)
+     
+     """
+      # ESTILIZANDO OS BOTÕES APLICANDO UM CANVAS NOS BOTÕES;
+       - CANVAS: E UMA TELA DE PINTURA DESTINADA AO DESENHO DE IMAGENS OU OUTROS LAYOUTS COMPLEXOS;
+     """
+     def estilizarBtnCanvas(self):
+          self.canvas_btn_limpar_cadastrar = Canvas(self.conteinerTop,bd=0,bg='black',highlightbackground='gray',highlightthickness=5)
+          self.canvas_btn_limpar_cadastrar.place(relx=0.19,rely=0.003,relwidth=0.30,relheight=0.13)
+          self.canvas_btn_alterar_apagar_buscar = Canvas(self.conteinerTop,bd=0,bg='black',highlightbackground='gray',highlightthickness=5)
+          self.canvas_btn_alterar_apagar_buscar.place(relx=0.59,rely=0.003,relwidth=0.32,relheight=0.13)
 
 

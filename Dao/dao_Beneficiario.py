@@ -123,3 +123,30 @@ class daoBeneficiarioCrud():
                 print("-"*30)
                 print("Usuario não excluido")
                 print("-"*30)
+
+    
+    """
+     # ESTE METODO FAZ A BUSCA DE UM BENEFICIARIO NO BANCO DE DADOS;
+       - A BUSCA TEM COMO REQUISITO O NOME DO BENEFICIARIO, PODE SER NOME COMPLETO,
+       PRIMERIO NOME, OU SO AS LETRAS INICIAIS;
+       - A BUSCA VAI SER EFETUADA USANDO OPERADORES DE TEXT DO BANCO DE DADOS, ILIKE E %,
+       PARA QUE VENHA TODOS OS CADASTRADOS QUE SEJA REALMENTE DO NOME INFORMADO, OU PARECIDO;
+    """
+    def daoBuscaBenef(self,textSearch):
+        try:
+            self.cursorSql = self.conexaoDb.cursor();
+            self.cursorSql.execute("""SELECT * FROM beneficiario_social WHERE nome LIKE '%s%%' 
+            """ % (textSearch))
+            self.resultadoSql = self.cursorSql.fetchall()
+            self.objConexao.desconectarBanco()
+            return self.resultadoSql;
+        except ValueError as identifier:
+            print("-"*30)
+            print("OCORREU UM ERRO AO BUSCA BENEFICIARIO {%s}" % (identifier))
+            print("-"*30)
+            return None;
+        except OperationalError as e:
+            print("-"*30)
+            print("OCORREU UM ERRO AO BUSCA BENEFICIARIO {%s}" % (e))
+            print("-"*30)
+            return None;

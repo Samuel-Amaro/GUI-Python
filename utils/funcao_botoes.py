@@ -1,6 +1,7 @@
 from tkinter import *
 from Model_Dados import ModelBeneficiario
 from Dao import dao_Beneficiario
+from Controller import controler_Beneficiario
 
 """
  # CLASSE QUE FICA RESPONSAVEL POR FAZER AÇÕES DO BOTÃO;
@@ -16,6 +17,7 @@ class functionBtn():
         self.listaBeneficiarios = None;
         self.beneficiarioSelecionado = ();
         self.beneficiarioAlterar = ();
+        self.controlaBeneficiario = controler_Beneficiario.ControleBeneficiario()
         super().__init__()
      
     """
@@ -61,6 +63,7 @@ class functionBtn():
             print("----------------------------")
             print("Beneficiario Cadastrado com sucesso")
             print("----------------------------")
+            self.limparCampos()
          else:
              print("----------------------------")
              print("Beneficiario Não cadastrado")
@@ -211,3 +214,39 @@ class functionBtn():
     """
     def sairSistema(self):
         self.telaPrincipal.destroy()
+
+    
+    """
+     # ESTE METODO BUSCA UM CADASTRO DE UM BENEFICIARIO, DE ACORDO COM O NOME INFORMADO, NA CAIXA DE TEXTO, DO NOME;
+       - vou tratar esse nome e fazer a busca do beneficiario, e verificar se eles existe, e se existe, mostra ele na tree view destacada para o usuario;
+    """
+    def buscarBeneficiario(self):
+        self.controlaBeneficiario = controler_Beneficiario.ControleBeneficiario()
+        if(self.controlaBeneficiario.controlerBuscaBenefi(self.vTxtNome.get())):
+           self.daoBen = dao_Beneficiario.daoBeneficiarioCrud()
+           self.listaBeneficiarios = self.daoBen.daoBuscaBenef(self.vTxtNome.get());
+           # não retornou nenhum beneficiario
+           if(self.listaBeneficiarios == None):
+              print("-------------------------------------------")
+              print("Não encontrou beneficiario com esse Nome;")
+              print("-------------------------------------------")
+           else:
+                # nome do beneficiario e valido mas não existe no banco
+                if(self.listaBeneficiarios == []):
+                   print("-"*30)
+                   print("NÃO EXISTE BENEFICIARIOS COM ESSE NOME")
+                   print("-"*30)
+                   self.limparCampos()
+                else:
+                    # se beneficiario existe, desta ele na tree view
+                    self.limparCampos()
+                    self.tViewCli.delete(*self.tViewCli.get_children())
+                    for linha in self.listaBeneficiarios:
+                        self.tViewCli.insert("",END,values=linha)       
+        else:
+          print("-"*30)
+          print("DIGITE UM NOME VALIDO PARA FAZER A BUSCA")
+          print("-"*30)
+
+
+    

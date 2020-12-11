@@ -45,5 +45,15 @@ class ControleBeneficiario():
         else:
            return False;
 
+    """
+     # ESTE METODO FAZ VALIDAÇÕES ANTES DE PODER PROCURAR O BENEFICIARIO
+    """
+    def controlerBuscaBenefi(self, textSearch):
+        if(textSearch == ""):
+           return False;
+        else:
+           return True;
+         
+
 
     
