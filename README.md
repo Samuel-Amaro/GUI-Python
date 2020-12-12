@@ -24,3 +24,16 @@ e seguir as importações a seguir em seu projeto e tera todos os widgets dispon
 ## Banco-Dados
  * Modelo logico do banco de dados que deve ser implementado;
  * [Modelo-Logico-Db](https://github.com/Samuel-Amaro/GUI-Python/blob/main/Documentacao/Banco-Dados/modelo-logico-banco.pdf)
+ 
+## Executavel do Projeto
+  * Para se criar o executavel do projeto usa-se o [pyinstaller](https://www.pyinstaller.org/)
+  ```
+   pip install pyinstalle
+   # para criar  o .exe no seu SO
+   # no terminal execute
+   pyinstaller yourprogram.py
+  ```
+  * Compativel com Windows 10;
+  * Não e Multiplataforma;
+  * O Executavel e compativel somente em SO em que ele foi gerado(No caso Windows 10);
+  * Sistema;
