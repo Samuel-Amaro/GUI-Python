@@ -37,3 +37,10 @@ e seguir as importações a seguir em seu projeto e tera todos os widgets dispon
   * Não e Multiplataforma;
   * O Executavel e compativel somente em SO em que ele foi gerado(No caso Windows 10);
   * [Executavel de teste do Projeto](https://github.com/Samuel-Amaro/GUI-Python/tree/main/dist)
+  
+## Prototipos Interface
+
+ * **Prototipo Interface Beneficiario**
+ 
+ 
+ ![Prototipo Beneficiario](https://github.com/Samuel-Amaro/GUI-Python/blob/main/Documentacao/Prototipos-Interface-GUI/0001.jpg)
