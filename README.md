@@ -36,4 +36,4 @@ e seguir as importações a seguir em seu projeto e tera todos os widgets dispon
   * Compativel com Windows 10;
   * Não e Multiplataforma;
   * O Executavel e compativel somente em SO em que ele foi gerado(No caso Windows 10);
-  * Sistema;
+  * [Executavel de teste do Projeto](https://github.com/Samuel-Amaro/GUI-Python/tree/main/dist)
