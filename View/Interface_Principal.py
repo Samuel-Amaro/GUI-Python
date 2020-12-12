@@ -320,11 +320,15 @@ class TelaPrincipal(funcao_botoes.functionBtn):
      """
       # ESTILIZANDO OS BOTÕES APLICANDO UM CANVAS NOS BOTÕES;
        - CANVAS: E UMA TELA DE PINTURA DESTINADA AO DESENHO DE IMAGENS OU OUTROS LAYOUTS COMPLEXOS;
+       - CRIA MOLDURAS DENTRO DO CONTEINER;
+       - APLICA MOLDURAS DE FUNDO AOS BOTÕES;
      """
      def estilizarBtnCanvas(self):
           self.canvas_btn_limpar_cadastrar = Canvas(self.conteinerTop,bd=0,bg='black',highlightbackground='gray',highlightthickness=5)
-          self.canvas_btn_limpar_cadastrar.place(relx=0.19,rely=0.003,relwidth=0.30,relheight=0.13)
+          self.canvas_btn_limpar_cadastrar.place(relx=0.19,rely=0.001,relwidth=0.30,relheight=0.14)
           self.canvas_btn_alterar_apagar_buscar = Canvas(self.conteinerTop,bd=0,bg='black',highlightbackground='gray',highlightthickness=5)
-          self.canvas_btn_alterar_apagar_buscar.place(relx=0.59,rely=0.003,relwidth=0.32,relheight=0.13)
+          self.canvas_btn_alterar_apagar_buscar.place(relx=0.59,rely=0.001,relwidth=0.32,relheight=0.14)
+          self.canvas_atualizar = Canvas(self.conteinerTop,bd=0,bg='black',highlightbackground='gray',highlightthickness=5)
+          self.canvas_atualizar.place(relx=0.74,rely=0.83,relwidth=0.17,relheight=0.14)
 
 
