@@ -15,6 +15,8 @@ from tkinter import *
 from utils import funcao_botoes
 from tkinter import messagebox
 from tkinter import tix
+from utils import validador_input
+from utils.validador_input import validadorEntradaTexto
 
 """
  # CLASSE QUE COSTROE A TELA PRINCIPAL DO PROJETO;
@@ -34,7 +36,8 @@ class TelaPrincipal(funcao_botoes.functionBtn):
           self.estilizarBtnCanvas()
           self.botoes()
           self.labels_informativas()
-          self.criaFluxoText() # teste de setar texto na caixa de texto 
+          self.criaFluxoText()
+          #self.validada_entrada_texto()
           self.caixaEntradaTexto()
           self.estilizarCaixasTexto()
           self.comboBox()
@@ -62,8 +65,8 @@ class TelaPrincipal(funcao_botoes.functionBtn):
           self.telaPrincipal.configure(background="#243340")
           self.telaPrincipal.geometry("700x500")
           self.telaPrincipal.resizable(True,True)
-          self.telaPrincipal.maxsize(900,700)
-          self.telaPrincipal.minsize(800,600)
+          self.telaPrincipal.maxsize(800,700)
+          self.telaPrincipal.minsize(700,600)
      """
       # METODO QUE CRIA CONTEINER DE AGRUPAMENTO PARA A TELA PRINCIPAL;
        - CRIA O CONTEINER 1 COM CONFIGURAÇÕES DE POSICIONAMENTO RELATIVAS EM RELAÇÃO A JANELA, PARA TER UM RESPONSIVIDADE;
@@ -137,11 +140,14 @@ class TelaPrincipal(funcao_botoes.functionBtn):
        - CAIXA DE TEXTO PARA USUARIO DIGITAR SEU TELEFONE;
        - CAIXA DE TEXTO PARA USUARIO DIGITAR SEU CPF;
        - CAIXA DE TEXTO PARA USUARIO DIGITAR SEU ENDEREÇO;
+       - “key”: valida sempre que a digitação de um caractere altera o conteúdo de um widget.
+       - Passamos o parâmetro %P indicando que devemos chamar a função de validação sempre que haja uma alteração no Entry
+       - ,validate="key",validatecommand=self.validacao_id
      """
      def caixaEntradaTexto(self):
-         # teste int var para setar texto na caixa de texto
          self.txtCodigo = Entry(self.aba_beneficiario,textvariable=self.vTxtCodigo) 
          self.txtCodigo.place(relx=0.03,rely=0.12,relwidth=0.10,relheight=0.10)
+         self.txtCodigo.delete(0,END)
          self.txtNome= Entry(self.aba_beneficiario,textvariable=self.vTxtNome)
          self.txtNome.place(relx=0.03,rely=0.35,relwidth=0.54,relheight=0.10)
          self.txtTelefone = Entry(self.aba_beneficiario,textvariable=self.vTxtTelefone)
@@ -304,6 +310,7 @@ class TelaPrincipal(funcao_botoes.functionBtn):
                  print("-" * 30)
                  print("BENEFICIARIO NÃO FOI DELETADO")
          else:  
+              messagebox.showinfo("EXCLUSÃO DE BENEFICIARIO CANCELADA","BENEFICIARIO SELECIONADO NÃO FOI EXCLUIDO")
               print("-" * 30)
               print("BENEFICIARIO NÃO EXCLUIDO POR ESCOLHA DO USUARIO")
 
@@ -365,3 +372,18 @@ class TelaPrincipal(funcao_botoes.functionBtn):
           self.abas_notebook.add(self.aba_beneficiario,text="BENEFICIARIO")
           self.abas_notebook.add(self.aba_secretaria_beneficio,text="SECRETARIA SOCIAL")
           self.abas_notebook.place(relx=0,rely=0,relwidth=1.0,relheight=1.0)
+     
+     """
+      # ESTE METODO FAZ VALIDAÇÕES DE ENTRADA DE TEXTO NAS CAIXAS DE TEXTO;
+      - VALIDAÇÃO DE TEXTO NA CAIXA DE TEXTO ID, ONDE A CAIXA DE TEXTO SO PODER RECEBER VALORES NUMERICOS, NÃO PODE RECEBER TEXTO!
+      - telaprincipal.register() -> Registre o método correspondente à função de validação
+     """
+     """
+     def validada_entrada_texto(self):
+          try:
+               print(f"oque tem no id: {self.vTxtCodigo.get()}")
+               self.validacao_id = (self.telaPrincipal.register(self.valida_codigo_id(self.vTxtCodigo.get())),"%P")
+               print(self.validacao_id)       
+          except TypeError as identifier:
+                print(f"ERRO AO VALIDADAR CAIXA DE TEXTO ID: {identifier}")
+     """          

@@ -115,7 +115,7 @@ class daoBeneficiarioCrud():
                      self.conexaoDb.commit()
                      self.objConexao.desconectarBanco()
                      return True;
-                 except Error as r:
+                 except OperationalError as r:
                     print("-"*30)
                     print("OCORREU UM ERRO AO DELETAR BENEFICIARIO: {%s}" % (r))
                     return False;

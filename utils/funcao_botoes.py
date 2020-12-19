@@ -1,4 +1,5 @@
 from tkinter import *
+from tkinter import messagebox
 from Model_Dados import ModelBeneficiario
 from Dao import dao_Beneficiario
 from Controller import controler_Beneficiario
@@ -63,11 +64,13 @@ class functionBtn():
             print("----------------------------")
             print("Beneficiario Cadastrado com sucesso")
             print("----------------------------")
+            messagebox.showinfo("CADASTRO EFETUADO","CADASTRO FEITO COM SUCESSO, Clique no Botão Atualizar!")
             self.limparCampos()
          else:
              print("----------------------------")
              print("Beneficiario Não cadastrado")
              print("----------------------------")
+             messagebox.showwarning("CADASTRO NÃO EFETUADO","PREENCHA OS CAMPOS OBRIGATORIOS!")
              self.limparCampos()
     
     """
@@ -168,28 +171,40 @@ class functionBtn():
     def atualizarCadBenf(self):
         self.beneficiario = ModelBeneficiario.ModeloBeneficiario();
         self.daoBen = dao_Beneficiario.daoBeneficiarioCrud();
-        self.beneficiario.setNome(self.vTxtNome.get())
-        self.beneficiario.setBairro(self.vTxtLocal.get())
-        self.beneficiario.setAbrangencia(self.vTxtAbrangencia.get())
-        self.beneficiario.setEndereco(self.vTxtEndereco.get())
-        self.beneficiario.setFone(self.vTxtTelefone.get())
-        self.beneficiario.setNis(None)
-        self.beneficiario.setRg(None)
-        self.beneficiario.setId(self.vTxtCodigo.get())
-        self.beneficiario.setCpf(self.vTxtCpf.get())
-        self.beneficiario.setQtdCasa(self.vTxtQtdCasa.get())
-        if(self.daoBen.daoAtualizarCadBeneficiario(self.beneficiario)):
-          print("--------------------------------------");
-          print("BENEFICIARIO ATUALIZADO COM SUCESSO!")
-          print("--------------------------------------");
-          # CAIXA DE TEXTO VOLTA SER EDITAVEL
-          self.estadoCaixasTexto("ATIVADO")
-          # LIMPA CAMPOS DO FORMULARIO
-          self.limparCampos()
-        else:
-          print("--------------------------------------");
-          print("BENEFICIARIO NÃO ATUALIZADO COM SUCESSO!")
-          print("--------------------------------------");
+        #algum campo vazio
+        try:
+            self.beneficiario.setNome(self.vTxtNome.get())
+            self.beneficiario.setBairro(self.vTxtLocal.get())
+            self.beneficiario.setAbrangencia(self.vTxtAbrangencia.get())
+            self.beneficiario.setEndereco(self.vTxtEndereco.get())
+            self.beneficiario.setFone(self.vTxtTelefone.get())
+            self.beneficiario.setNis(None)
+            self.beneficiario.setRg(None)
+            self.beneficiario.setId(self.vTxtCodigo.get())
+            self.beneficiario.setCpf(self.vTxtCpf.get())
+            self.beneficiario.setQtdCasa(self.vTxtQtdCasa.get())
+            if(self.daoBen.daoAtualizarCadBeneficiario(self.beneficiario)):
+                  print("--------------------------------------");
+                  print("BENEFICIARIO ATUALIZADO COM SUCESSO!")
+                  print("--------------------------------------");
+                  messagebox.showinfo("ATUALIZAÇÃO DE CADASTRO","ATUALIZAÇÃO DE CADASTRO EFETUADA COM SUCESSO!")
+                  # CAIXA DE TEXTO VOLTA SER EDITAVEL
+                  self.estadoCaixasTexto("ATIVADO")
+                  # LIMPA CAMPOS DO FORMULARIO
+                  self.limparCampos()
+            else:
+                  print("--------------------------------------");
+                  print("BENEFICIARIO NÃO ATUALIZADO!")
+                  print("--------------------------------------");
+                  messagebox.showwarning("ATUALIZAÇÃO EM PENDENCIA","PARA ATUALIZAR O CADASTRO PREENCHA OS CAMPOS DE CADASTRO OBRIGATORIOS!")  
+        except TclError as identifier:
+             print("-"*30)
+             print("Campos obrigatorios na atualizaçaõ estão vazios")
+             print("--------------------------------------");
+             print("BENEFICIARIO NÃO ATUALIZADO!")
+             print("--------------------------------------");
+             messagebox.showwarning("ATUALIZAÇÃO EM PENDENCIA","PARA ATUALIZAR O CADASTRO PREENCHA OS CAMPOS DE CADASTRO OBRIGATORIOS!") 
+        
     
     """
      # este metodo deleta um beneficiario, que foi selecionado na tree view;
@@ -201,11 +216,14 @@ class functionBtn():
         if(self.daoBen.daoDeleteBeneficiario(self.beneficiario,respostaUsuario)):
           print("-"*30)
           print("BENEFICIARIO DELETADO COM SUCESSO")
+          messagebox.showinfo("BENEFICIARIO DELETADO","BENEFICIARIO SELECIONADO FOI DELETADO COM SUCESSO, ATUALIZE A LISTA, CLICANDO NO BOTÃO ATUALIZAR!")
           self.limparCampos()
           return True
         else:
           print("-"*30)
-          print("BENEFICIARIO NÃO DELETADO")            
+          print("BENEFICIARIO NÃO DELETADO")
+          messagebox.showwarning("ATENÇÃO","ESCOLHA UM BENEFICIARIO PARA SER EXCLUIDO")
+          self.limparCampos()            
           return False
     
 
@@ -230,23 +248,27 @@ class functionBtn():
               print("-------------------------------------------")
               print("Não encontrou beneficiario com esse Nome;")
               print("-------------------------------------------")
+              messagebox.showerror("BUSCA BENEFICIARIO","NÃO EXISTE BENEFICIARIO {%s} CADASTRADO NO SISTEMA" % (self.vTxtNome.get()))
            else:
                 # nome do beneficiario e valido mas não existe no banco
                 if(self.listaBeneficiarios == []):
                    print("-"*30)
                    print("NÃO EXISTE BENEFICIARIOS COM ESSE NOME")
                    print("-"*30)
+                   messagebox.showerror("BUSCA BENEFICIARIO","NÃO EXISTE BENEFICIARIO {%s} CADASTRADO NO SISTEMA" % (self.vTxtNome.get()))
                    self.limparCampos()
                 else:
-                    # se beneficiario existe, desta ele na tree view
+                    # se beneficiario existe, MOSTRA  ele na tree view
                     self.limparCampos()
                     self.tViewCli.delete(*self.tViewCli.get_children())
                     for linha in self.listaBeneficiarios:
-                        self.tViewCli.insert("",END,values=linha)       
+                        self.tViewCli.insert("",END,values=linha)
+                    messagebox.showinfo("BENEFICIARIO ENCONTRADO","BENEFICIARIOS ENCONTRADOS, OLHE NA LISTA ABAIXO O RESULTADO DE SUA PESQUISA!")       
         else:
           print("-"*30)
           print("DIGITE UM NOME VALIDO PARA FAZER A BUSCA")
           print("-"*30)
+          messagebox.showerror("ERRO NA BUSCA","DIGITE UM NOME DE BENEFICIARIO VALIDO, PARA REALIZAR A BUSCA NO SISTEMA")
 
 
     

@@ -41,9 +41,10 @@ class conexaoBancoDados():
     """
     def ddlBanco(self):
         self.conectarBanco();
-        #self.cursoSql.execute("""DROP TABLE beneficiario_social;""")
-        #print("Apagou tabela")
-        self.cursoSql.execute("""CREATE TABLE IF NOT EXISTS beneficiario_social(
+        try:
+            #self.cursoSql.execute("""DROP TABLE beneficiario_social;""")
+            #print("Apagou tabela")
+            self.cursoSql.execute("""CREATE TABLE IF NOT EXISTS beneficiario_social(
                                   id_beneficiario_pk INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
                                   telefone VARCHAR(15) NOT NULL,
                                   cpf VARCHAR(11) UNIQUE NOT NULL,
@@ -54,23 +55,32 @@ class conexaoBancoDados():
                                   qtd_pessoas_mora_casa INTEGER NOT NULL,
                                   rg VARCHAR (10),
                                   nome VARCHAR (250) NOT NULL); 
-        """);
-        self.cursoSql.execute("""CREATE TABLE IF NOT EXISTS secretaria_social(
+            """);
+            #self.cursoSql.execute("""DROP TABLE secretaria_social;""")
+            #print("Tabela secretaria  Apagada")
+            self.cursoSql.execute("""CREATE TABLE IF NOT EXISTS secretaria_social(
                                      id_secretaria_pk INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
                                      data_hora DATETIME NOT NULL,
                                      tipo_beneficio VARCHAR (200) NOT NULL,
                                      descricao_beneficio TEXT NOT NULL,
-                                     scfv_solicitado VARCHAR (100),
+                                     local_fornece_beneficio VARCHAR (100),
                                      servidor_responsavel VARCHAR (50) NOT NULL);
-        """)
-        self.cursoSql.execute("""CREATE TABLE IF NOT EXISTS beneficiario_recebe_secretaria (
+            """)
+            #self.cursoSql.execute("""DROP TABLE beneficiario_recebe_secretaria;""")
+            #print("Tabela secretaria_beneficiario_Recebe  Apagada")
+            self.cursoSql.execute("""CREATE TABLE IF NOT EXISTS beneficiario_recebe_secretaria (
                                     id_beneficiario INTEGER REFERENCES beneficiario (id_beneficiario_pk) NOT NULL,
-                                    id_secretaria   INTEGER REFERENCES secretaria_social (id_secretaria_pk) NOT NULL); 
-        """)
-        self.conexao.commit()
-        self.desconectarBanco()
-        print("-------------------")
-        print("DDL DO BANCO CRIADO")
-        print("-------------------")
-
+                                    id_secretaria INTEGER REFERENCES secretaria_social (id_secretaria_pk) NOT NULL,
+                                    data_hora DATETIME NOT NULL); 
+            """)
+            self.conexao.commit()
+            self.desconectarBanco()
+            print("-------------------")
+            print("DDL DO BANCO CRIADO")
+            print("-------------------")
+        except OperationalError as identifier:
+            print("-"*30)
+            print("Ocorreu um Erro ao CRIAR O DDL do BANCO DE DADOS; {%s}" % (identifier))
+            print("-"*30)
+        
     

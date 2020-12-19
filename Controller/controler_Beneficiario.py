@@ -47,6 +47,7 @@ class ControleBeneficiario():
 
     """
      # ESTE METODO FAZ VALIDAÇÕES ANTES DE PODER PROCURAR O BENEFICIARIO
+      - se o texto para pesquisa não for, um texto valido a pesquisa não pode ser efetuada!
     """
     def controlerBuscaBenefi(self, textSearch):
         if(textSearch == ""):
