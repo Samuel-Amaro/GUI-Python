@@ -11,12 +11,13 @@
 """
 
 from tkinter import ttk
+from tkinter import tix
 from tkinter import *
 from utils import funcao_botoes
 from tkinter import messagebox
 from tkinter import tix
-from utils import validador_input
-from utils.validador_input import validadorEntradaTexto
+from View import ViewSecretariaSocial
+
 
 """
  # CLASSE QUE COSTROE A TELA PRINCIPAL DO PROJETO;
@@ -28,8 +29,8 @@ class TelaPrincipal(funcao_botoes.functionBtn):
        - VAI CHAMAR TODAS AS FUNÇÕES QUE COSTROEM A CLASSE, COMPONENTE POR COMPONENTE, QUE DA VIDA A CLASSE;
        - CADA METODO CHAMADO PERTENCE A UM WIDGET QUE VAI SER MOSTRADO NA TELA PRINCIPAL;
      """
-     def __init__(self,nomeTela):
-          self.telaPrincipal = nomeTela
+     def __init__(self):
+          self.__app = tix.Tk()
           self.definirTelaInicial()
           self.conteinerFrames()
           self.abasJanelas()
@@ -49,7 +50,8 @@ class TelaPrincipal(funcao_botoes.functionBtn):
           self.menus()
           self.beneficiariosCadastrados()
           self.baloesMensagenBotoes()
-          self.telaPrincipal.mainloop()
+          self.criarViewSecretaria()
+          self.__app.mainloop()
           super().__init__()
      """
       # DEFINE AS CONFIGURAÇÕES BASICAS DA TELA PRINCIPAL
@@ -61,21 +63,21 @@ class TelaPrincipal(funcao_botoes.functionBtn):
         - ADD UMA CONFIGURAÇÃO DE ESTILIZAÇÃO DE COR DE FUNDO
      """     
      def definirTelaInicial(self):
-          self.telaPrincipal.title("CADASTRO CLIENTES")
-          self.telaPrincipal.configure(background="#243340")
-          self.telaPrincipal.geometry("700x500")
-          self.telaPrincipal.resizable(True,True)
-          self.telaPrincipal.maxsize(800,700)
-          self.telaPrincipal.minsize(700,600)
+          self.__app.title("CADASTRO CLIENTES")
+          self.__app.configure(background="#243340")
+          self.__app.geometry("700x500")
+          self.__app.resizable(True,True)
+          self.__app.maxsize(1000,680)
+          self.__app.minsize(700,500)
      """
       # METODO QUE CRIA CONTEINER DE AGRUPAMENTO PARA A TELA PRINCIPAL;
        - CRIA O CONTEINER 1 COM CONFIGURAÇÕES DE POSICIONAMENTO RELATIVAS EM RELAÇÃO A JANELA, PARA TER UM RESPONSIVIDADE;
        - CRIA O CONTEINER 2 COM AS MESMAS CONFIGURAÇÕES DO CONTEINER 1, SO QUE COM POSICIONAMENTO DIFERENTE DENTRO DA TELA;
      """     
      def conteinerFrames(self):
-        self.conteinerTop = Frame(self.telaPrincipal,bd=4,background="#BAD0D9",highlightbackground="#54778C",highlightthickness=2)
+        self.conteinerTop = Frame(self.__app,bd=4,background="#BAD0D9",highlightbackground="#54778C",highlightthickness=2)
         self.conteinerTop.place(relx=0.01,rely=0.010,relwidth=0.98,relheight=0.46)
-        self.conteinerBotton = Frame(self.telaPrincipal,bg="#BAD0D9",bd=4,highlightbackground="#54778C",highlightthickness=2)
+        self.conteinerBotton = Frame(self.__app,bg="#BAD0D9",bd=4,highlightbackground="#54778C",highlightthickness=2)
         self.conteinerBotton.place(relx=0.01,rely=0.48,relwidth=0.98,relheight=0.50)
      """
       # CRIA BOTÕES QUE VÃO DAR AÇÃO PARA A INTERFACE, VÃO PERMITIR INTERAÇÃO COM O USUARIO;
@@ -128,7 +130,7 @@ class TelaPrincipal(funcao_botoes.functionBtn):
          self.lbl_abrangencia.place(relx=0.6,rely=0.50)
          self.lbl_endereco = Label(self.aba_beneficiario,text="Endereço")
          self.lbl_endereco.place(relx=0.03,rely=0.75)
-         self.lbl_qtd_casa = Label(self.aba_beneficiario,text="Quantidade Pessoas Residem Na Casa")
+         self.lbl_qtd_casa = Label(self.aba_beneficiario,text="Quantidade")
          self.lbl_qtd_casa.place(relx=0.6,rely=0.75)
      
      """
@@ -319,13 +321,13 @@ class TelaPrincipal(funcao_botoes.functionBtn):
       # ESTE METODO CRIA UMA BARRA SUPERIOR COM DOIS MENUS DE OPÇÕES PARA USUARIO INTERAGIR;
      """
      def menus(self):
-         self.barraMenu = Menu(self.telaPrincipal)
+         self.barraMenu = Menu(self.__app)
          self.menu_01_opcoes = Menu(self.barraMenu,tearoff=0) 
          self.barraMenu.add_cascade(label="Opções",menu=self.menu_01_opcoes)
          self.menu_01_opcoes.add_command(label="Sair",command=self.sairSistema)
          self.menu_02_sobre = Menu(self.barraMenu,tearoff=0)
          self.barraMenu.add_cascade(label="Sobre",menu=self.menu_02_sobre)
-         self.telaPrincipal.configure(menu=self.barraMenu)
+         self.__app.configure(menu=self.barraMenu)
      
      """
       # ESTILIZANDO OS BOTÕES APLICANDO UM CANVAS NOS BOTÕES;
@@ -373,17 +375,11 @@ class TelaPrincipal(funcao_botoes.functionBtn):
           self.abas_notebook.add(self.aba_secretaria_beneficio,text="SECRETARIA SOCIAL")
           self.abas_notebook.place(relx=0,rely=0,relwidth=1.0,relheight=1.0)
      
+
      """
-      # ESTE METODO FAZ VALIDAÇÕES DE ENTRADA DE TEXTO NAS CAIXAS DE TEXTO;
-      - VALIDAÇÃO DE TEXTO NA CAIXA DE TEXTO ID, ONDE A CAIXA DE TEXTO SO PODER RECEBER VALORES NUMERICOS, NÃO PODE RECEBER TEXTO!
-      - telaprincipal.register() -> Registre o método correspondente à função de validação
+      * ESTE METODO CRIA A TELA DA SECRETARIA SOCIAL
+
+       - ESTE METODO CRIA A TELA DA SECRETARIA SOCIAL, DENTRO DA INTERFACE PRINCIPAL, NA ABA SECRETARIA SOCIAL;
      """
-     """
-     def validada_entrada_texto(self):
-          try:
-               print(f"oque tem no id: {self.vTxtCodigo.get()}")
-               self.validacao_id = (self.telaPrincipal.register(self.valida_codigo_id(self.vTxtCodigo.get())),"%P")
-               print(self.validacao_id)       
-          except TypeError as identifier:
-                print(f"ERRO AO VALIDADAR CAIXA DE TEXTO ID: {identifier}")
-     """          
+     def criarViewSecretaria(self):
+          self.TelaSecretariaSocial = ViewSecretariaSocial.ViewSecretaria(self.aba_secretaria_beneficio)
