@@ -56,6 +56,7 @@ class conexaoBancoDados():
                                   rg VARCHAR (10),
                                   nome VARCHAR (250) NOT NULL); 
             """);
+
             #self.cursoSql.execute("""DROP TABLE secretaria_social;""")
             #print("Tabela secretaria  Apagada")
             self.cursoSql.execute("""CREATE TABLE IF NOT EXISTS secretaria_social(
