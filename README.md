@@ -41,6 +41,8 @@ e seguir as importações a seguir em seu projeto e tera todos os widgets dispon
 ## Prototipos Interface
 
  * **Prototipo Interface Beneficiario**
+ [Prototipo Beneficiario](https://github.com/Samuel-Amaro/GUI-Python/blob/main/Documentacao/Prototipos-Interface-GUI/0001.jpg)
+ * **Prototipo Interface Secretaria Social**
+ [Prototipo Secretaria Social](https://github.com/Samuel-Amaro/GUI-Python/blob/main/Documentacao/Prototipos-Interface-GUI/prototipo-secretaria-social.pdf)
  
  
- ![Prototipo Beneficiario](https://github.com/Samuel-Amaro/GUI-Python/blob/main/Documentacao/Prototipos-Interface-GUI/0001.jpg)
