@@ -1,4 +1,5 @@
 from tkinter import *
+from tkinter import ttk
 
 """
  * CLASSE QUE E RESPONSAVEL POR COSTRUIR OS WIDGETS GRAFICOS DA ABA SECRETARIA SOCIAL;
@@ -20,6 +21,8 @@ class ViewSecretaria:
           self.estilizarWidgetText()
           self.widgetButtons()
           self.estilizarWidgetButtons()
+          self.estilizarWidgetComboBox()
+          self.widgetComboBox()
 
      """
       * ESTILIZANDO O CONTEINER;
@@ -39,6 +42,10 @@ class ViewSecretaria:
          self.lblTipoBeneficio.place(relx=0.01,rely=0.05,relheight=0.10)
          self.lblDescricaoBeneficio = Label(self.conteinerAbaSecretaria,text="Descrição do Beneficio")
          self.lblDescricaoBeneficio.place(relx=0.01,rely=0.37,relheight=0.10)
+         self.lblLocalBeneficio = Label(self.conteinerAbaSecretaria,text="Local Disponibilizara o beneficio")
+         self.lblLocalBeneficio.place(relx=0.46,rely=0.20,relheight=0.12)
+         self.lblServidorResponsavel = Label(self.conteinerAbaSecretaria,text="Servidor Responsavel")
+         self.lblServidorResponsavel.place(relx=0.46,rely=0.54,relheight=0.12)
 
 
      """
@@ -49,6 +56,8 @@ class ViewSecretaria:
      def estilizarLabels(self): 
           self.lblTipoBeneficio.configure(bg="#BAD0D9",font=("arial",9,"bold"))         
           self.lblDescricaoBeneficio.configure(bg="#BAD0D9",font=("arial",9,"bold"))
+          self.lblLocalBeneficio.configure(bg="#BAD0D9",font=("arial",9,"bold"))
+          self.lblServidorResponsavel.configure(bg="#BAD0D9",font=("arial",9,"bold"))
 
      """
       * ESTE METODO CRIA  O WIDGET OPTION MENU
@@ -60,6 +69,10 @@ class ViewSecretaria:
         self.txtOpMenuTipoBeneficio.set(self.listOpcoesTipoBeneficio[0])
         self.opTipoBeneficio = OptionMenu(self.conteinerAbaSecretaria,self.txtOpMenuTipoBeneficio,*self.listOpcoesTipoBeneficio)
         self.opTipoBeneficio.place(relx=0.01,rely=0.20,relwidth=0.40,relheight=0.12)
+        self.listOpcoesLocal = ["SELECIONE O LOCAL QUE DISPONIBILIZARA O BENEFICIO","CRAS-I","CRAS-II","SCFV VILA VERDE","SCFV PRAÇA CÉUS","SCFV JARDIM OLIVEIRA","SCFV SETOR SUL","CREAS","CASA DAS HORTENCIAS","CENTRO POP","SECRETARIA DESENVOLVIMENTO SOCIAL E TRABALHO"]
+        self.txtOpMenuLocalBeneficio.set(self.listOpcoesLocal[0])
+        self.opLocalBeneficio = OptionMenu(self.conteinerAbaSecretaria,self.txtOpMenuLocalBeneficio,*self.listOpcoesLocal)
+        self.opLocalBeneficio.place(relx=0.46,rely=0.37,relwidth=0.53,relheight=0.12)
 
 
      """
@@ -70,7 +83,8 @@ class ViewSecretaria:
      def fluxoTexto(self):
         self.txtOpMenuTipoBeneficio = StringVar()
         self.txtInputOutputDescriBenef = StringVar()
-
+        self.txtOpMenuLocalBeneficio = StringVar()
+        self.txtInputOutputServidorResponsavel = StringVar()
      
      """
       * ESTE METODO ESTILIZA O COMPONENTE OPTION MENU
@@ -88,6 +102,7 @@ class ViewSecretaria:
      """
      def estilizarWidgetOptionMenu(self):
          self.opTipoBeneficio.configure(relief="raised",borderwidth=4,font=("Helvetica",9,"bold"),background="black",foreground="white",activebackground="black",activeforeground="white",highlightcolor="white",highlightthickness=2)
+         self.opLocalBeneficio.configure(relief="raised",borderwidth=4,font=("Helvetica",9,"bold"),background="black",foreground="white",activebackground="black",activeforeground="white",highlightcolor="white",highlightthickness=2)
 
 
      """
@@ -124,11 +139,11 @@ class ViewSecretaria:
      """
      def widgetButtons(self):
          self.btnCadastrarBeneficio = Button(self.conteinerAbaSecretaria,text="Cadastrar Beneficio")
-         self.btnCadastrarBeneficio.place(relx=0.43,rely=0.01,relwidth=0.19,relheight=0.13)
+         self.btnCadastrarBeneficio.place(relx=0.22,rely=0.01,relwidth=0.19,relheight=0.13)
          self.btnAtualizarBeneficio = Button(self.conteinerAbaSecretaria,text="Atualizar Beneficio")
-         self.btnAtualizarBeneficio.place(relx=0.62,rely=0.01,relwidth=0.19,relheight=0.13)
+         self.btnAtualizarBeneficio.place(relx=0.46,rely=0.01,relwidth=0.19,relheight=0.13)
          self.btnExcluirBeneficio = Button(self.conteinerAbaSecretaria,text="Excluir Beneficio")
-         self.btnExcluirBeneficio.place(relx=0.81,rely=0.01,relwidth=0.19,relheight=0.13)
+         self.btnExcluirBeneficio.place(relx=0.65,rely=0.01,relwidth=0.19,relheight=0.13)
 
      
      """
@@ -147,6 +162,39 @@ class ViewSecretaria:
 
      """
      def estilizarWidgetButtons(self):
-        self.btnCadastrarBeneficio.configure(activebackground="#C2C2C2",relief="sunken",activeforeground="black",borderwidth=3,font=("TimesNewRoman",9,"bold"),highlightbackground="white",background="#1F1F1F",foreground="white",highlightcolor="white",highlightthickness=2)
-        self.btnAtualizarBeneficio.configure(activebackground="#C2C2C2",relief="raised",activeforeground="black",borderwidth=3,font=("TimesNewRoman",9,"bold"),highlightbackground="white",background="#1F1F1F",foreground="white",highlightcolor="white",highlightthickness=2)
-        self.btnExcluirBeneficio.configure(activebackground="#C2C2C2",relief="sunken",activeforeground="black",borderwidth=3,font=("TimesNewRoman",9,"bold"),background="#1F1F1F",foreground="white",highlightcolor="white",highlightthickness=2)
+        self.btnCadastrarBeneficio.configure(activebackground="#C2C2C2",relief="sunken",activeforeground="black",borderwidth=4,font=("TimesNewRoman",9,"bold"),highlightbackground="white",background="#1F1F1F",foreground="white",highlightcolor="white",highlightthickness=2)
+        self.btnAtualizarBeneficio.configure(activebackground="#C2C2C2",relief="raised",activeforeground="black",borderwidth=4,font=("TimesNewRoman",9,"bold"),highlightbackground="white",background="#1F1F1F",foreground="white",highlightcolor="white",highlightthickness=2)
+        self.btnExcluirBeneficio.configure(activebackground="#C2C2C2",relief="sunken",activeforeground="black",borderwidth=4,font=("TimesNewRoman",9,"bold"),background="#1F1F1F",foreground="white",highlightcolor="white",highlightthickness=2)
+
+    
+     """
+      * ESTE METODO CRIA UM WIDGET COMBO BOX
+
+        - cria o widget que vai mostrar a lista de servidores responsavel;
+        - cria o widget combobox com os servidores que pertecem a secretaria social;
+        - opções ao cria o widget:
+        - textvariable : controla fluxo de entrada e saida do combobox;
+        - value : mostra a lista de opções dos servidores;
+        - justify="center" : a cada opção escolhida no combo box, quando tiver dentro do widget vai ficar alinhada dentro da caixa ao centro;
+        - state="readonly" : deixa o widget com o estado de somente leitura, usuario não pode modificar;
+        - style : define um estilo para o widget;
+
+     """
+     def widgetComboBox(self):
+        self.listServidoresResponsaveis = ["ESCOLHA UM SERVIDORE RESPONSAVEL PELO BENEFICIO","SOLANGE - CHEFE","SINEUMA - CORDENADORA","ELISANGELA - ADMINISTRATIVO","MARCIA - ARTICULAÇÃO","GEOVANA - PSICOLOGA","LETICIA - ARTICULAÇÃO","PAULA FABIANE - ASSISTENTE SOCIAL ZONA RURAL","ANA PAULA - ASSISTENTE SOCIAL ZONA RURAL","MARIA JOSE - ASSISTENTE SOCIAL ZONA URBANA","LIVIA - ASSISTENTE SOCIAL ZONA URBANA","CAROLINE MARQUES - SECRETARIA GERAL","CAROL - COMUNICAÇÃO","GUILHERME - RH","GUILHERME 2 - RH","MARY - RH","CARLA - RH","IVONE - GERENCIADORA DE ESTOQUE","DANIELA - BOLSA FAMILIA"]
+        self.cbServidor = ttk.Combobox(self.conteinerAbaSecretaria,value=self.listServidoresResponsaveis,textvariable=self.txtInputOutputServidorResponsavel,justify="center",state="readonly",style="TCombobox")
+        self.cbServidor.place(relx=0.46,rely=0.71,relwidth=0.53,relheight=0.12)
+        self.cbServidor.set("ESCOLHA UM SERVIDORE RESPONSAVEL PELO BENEFICIO")
+
+     """
+      * ESTE METODO ESTILIZA O COMBO BOX
+
+       - cria uma objeto de estilo do ttk style para estilizar componentes do ttk;
+       - dar as configurações de estilo informando o nome da classe de estilo pertecente ao widget ao estilizar, no caso o nome da classe de estilo para estilizar o combo box e Tcombobox, seguido de suas opções de estilização;
+       - bordercolor : cor da borda do widget;
+       - selectbackground : seleciona uma cor de fundo para o primeiro plano, ao selecionar o elemento, dentro do combobox;
+       - selectforeground : selcionar uma cor do texto ao selecionar um elemento do combobox;
+     """
+     def estilizarWidgetComboBox(self):
+         estiloComboBox = ttk.Style()
+         estiloComboBox.configure("TCombobox",selectbackground="#1F1F1F",bordercolor="white",selectforeground="white")

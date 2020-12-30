@@ -34,7 +34,7 @@ class TelaPrincipal(funcao_botoes.functionBtn):
           self.definirTelaInicial()
           self.conteinerFrames()
           self.abasJanelas()
-          self.estilizarBtnCanvas()
+          #self.estilizarBtnCanvas()
           self.botoes()
           self.labels_informativas()
           self.criaFluxoText()
@@ -63,7 +63,7 @@ class TelaPrincipal(funcao_botoes.functionBtn):
         - ADD UMA CONFIGURAÇÃO DE ESTILIZAÇÃO DE COR DE FUNDO
      """     
      def definirTelaInicial(self):
-          self.__app.title("CADASTRO CLIENTES")
+          self.__app.title("SISTEMA SDST 2020")
           self.__app.configure(background="#243340")
           self.__app.geometry("700x500")
           self.__app.resizable(True,True)
@@ -91,17 +91,17 @@ class TelaPrincipal(funcao_botoes.functionBtn):
      """    
      def botoes(self):
           self.btn_limpar_campos_formualario = Button(self.aba_beneficiario,text="Limpar Campos",command=self.limparCampos)       
-          self.btn_limpar_campos_formualario.place(relx=0.2,rely=0.02,relwidth=0.16,relheight=0.10)
+          self.btn_limpar_campos_formualario.place(relx=0.2,rely=0.02,relwidth=0.16,relheight=0.13)
           self.btn_cadastrar = Button(self.aba_beneficiario,text="Cadastrar",command=self.cadastrarBeneficiario)
-          self.btn_cadastrar.place(relx=0.36,rely=0.02,relwidth=0.12,relheight=0.10)
+          self.btn_cadastrar.place(relx=0.37,rely=0.02,relwidth=0.12,relheight=0.13)
           self.btn_buscar = Button(self.aba_beneficiario,text="Buscar",command=self.buscarBeneficiario)
-          self.btn_buscar.place(relx=0.6,rely=0.02,relwidth=0.10,relheight=0.10)
+          self.btn_buscar.place(relx=0.6,rely=0.02,relwidth=0.10,relheight=0.13)
           self.btn_alterar = Button(self.aba_beneficiario,text="Alterar",command=self.atualizarCadBenf)
-          self.btn_alterar.place(relx=0.70,rely=0.02,relwidth=0.10,relheight=0.10)
+          self.btn_alterar.place(relx=0.71,rely=0.02,relwidth=0.10,relheight=0.13)
           self.bnt_apagar = Button(self.aba_beneficiario,text="Apagar",command=self.caixasMensagens)
-          self.bnt_apagar.place(relx=0.8,rely=0.02,relwidth=0.10,relheight=0.10)
+          self.bnt_apagar.place(relx=0.82,rely=0.02,relwidth=0.10,relheight=0.13)
           self.btn_atualizar_lista = Button(self.aba_beneficiario,text="Atualizar",command=self.beneficiariosCadastrados)
-          self.btn_atualizar_lista.place(relx=0.75,rely=0.85,relwidth=0.15,relheight=0.10)  
+          self.btn_atualizar_lista.place(relx=0.75,rely=0.85,relwidth=0.15,relheight=0.13)  
      """
       # CRIA WIDGETS INFORMATIVOS PARA O USUARIO;
         - CRIA LABELS PARA WIDGETS DE INPUTS DE ENTRADA DE TEXTO DO USUARIO;
@@ -167,12 +167,12 @@ class TelaPrincipal(funcao_botoes.functionBtn):
      """
      def comboBox(self):
           self.lista_bairros = ["ESCOLHA UM LOCAL","SETOR SUL","BOSQUE II","BOSQUE I","VILA VERDE","FORMOSINHA","CRIXA","BEZERRA","JK","SANTA ROSA","VIRGILANDIA","PALMEIRA I","PALMEIRA II","SANTA LEOCADIA","NOVA FORMOSA"]
-          self.txtLocal = ttk.Combobox(self.aba_beneficiario,value=self.lista_bairros,textvariable=self.vTxtLocal)
+          self.txtLocal = ttk.Combobox(self.aba_beneficiario,value=self.lista_bairros,textvariable=self.vTxtLocal,state="readonly",justify="center")
           self.txtLocal.place(relx=0.32,rely=0.60,relwidth=0.25,relheight=0.10)
           # setando uma opção padrão para o bairro
           self.txtLocal.set("ESCOLHA UM LOCAL")
           self.lista_abrangencia = ["ESCOLHA A ABRANGÊNCIA","ZONA URBANA","ZONA RURAL"];
-          self.txtAbrangencia = ttk.Combobox(self.aba_beneficiario,value=self.lista_abrangencia,textvariable=self.vTxtAbrangencia)
+          self.txtAbrangencia = ttk.Combobox(self.aba_beneficiario,value=self.lista_abrangencia,textvariable=self.vTxtAbrangencia,state="readonly",justify="center")
           self.txtAbrangencia.place(relx=0.6,rely=0.60,relwidth=0.30,relheight=0.10)
           # setando uma opção padrão para o combo box
           self.txtAbrangencia.set("ESCOLHA A ABRANGÊNCIA")
@@ -191,12 +191,12 @@ class TelaPrincipal(funcao_botoes.functionBtn):
        - somente configurações da borda do botão e da fonte e do tamanho da fonte;
      """     
      def estilizarBotoes(self): 
-          self.btn_limpar_campos_formualario.configure(border=2,font=("arial",9,"normal"))
-          self.bnt_apagar.configure(border=2,font=("arial",9,"normal"))
-          self.btn_alterar.configure(border=2,font=("arial",9,"normal"))
-          self.btn_buscar.configure(border=2,font=("arial",9,"normal"))
-          self.btn_cadastrar.configure(border=2,font=("arial",9,"normal"))
-          self.btn_atualizar_lista.configure(border=2,font=("arial",9,"normal"))
+          self.btn_limpar_campos_formualario.configure(activebackground="#C2C2C2",relief="sunken",activeforeground="black",borderwidth=4,font=("TimesNewRoman",9,"bold"),highlightbackground="white",background="#1F1F1F",foreground="white",highlightcolor="white",highlightthickness=2)
+          self.bnt_apagar.configure(activebackground="#C2C2C2",relief="raised",activeforeground="black",borderwidth=4,font=("TimesNewRoman",9,"bold"),highlightbackground="white",background="#1F1F1F",foreground="white",highlightcolor="white",highlightthickness=2)
+          self.btn_alterar.configure(activebackground="#C2C2C2",relief="sunken",activeforeground="black",borderwidth=4,font=("TimesNewRoman",9,"bold"),highlightbackground="white",background="#1F1F1F",foreground="white",highlightcolor="white",highlightthickness=2)
+          self.btn_buscar.configure(activebackground="#C2C2C2",relief="raised",activeforeground="black",borderwidth=4,font=("TimesNewRoman",9,"bold"),highlightbackground="white",background="#1F1F1F",foreground="white",highlightcolor="white",highlightthickness=2)
+          self.btn_cadastrar.configure(activebackground="#C2C2C2",relief="raised",activeforeground="black",borderwidth=4,font=("TimesNewRoman",9,"bold"),highlightbackground="white",background="#1F1F1F",foreground="white",highlightcolor="white",highlightthickness=2)
+          self.btn_atualizar_lista.configure(activebackground="#C2C2C2",relief="raised",activeforeground="black",borderwidth=4,font=("TimesNewRoman",9,"bold"),highlightbackground="white",background="#1F1F1F",foreground="white",highlightcolor="white",highlightthickness=2)
      
      """
       # METODO QUE TERA A FUNÇÃO DE APLICAR UMA ESTILIZAÇÃO MODERNA NAS LABELS DA TELA PRINCIPAL;
@@ -369,7 +369,7 @@ class TelaPrincipal(funcao_botoes.functionBtn):
      def abasJanelas(self):
           self.abas_notebook = ttk.Notebook(self.conteinerTop)
           self.aba_beneficiario = Frame(self.abas_notebook)
-          self.aba_beneficiario.config(bg="gray")
+          self.aba_beneficiario.config(background="#525252")
           self.aba_secretaria_beneficio = Frame(self.abas_notebook)
           self.abas_notebook.add(self.aba_beneficiario,text="BENEFICIARIO")
           self.abas_notebook.add(self.aba_secretaria_beneficio,text="SECRETARIA SOCIAL")
